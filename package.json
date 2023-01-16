@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/app.js",
+    "test": "jest",
+    "start": "node dist/src/app.js",
     "prepare": "husky install",
     "watch": "tsc -w",
     "dev": "nodemon ./src/app.ts",
@@ -14,11 +14,11 @@
     "tsc": "tsc"
   },
   "_moduleAliases": {
-    "@Domain": "dist/domain",
-    "@Infranstructure": "dist/infrastructure",
-    "@Application": "dist/application",
-    "@Utils": "dist/utilities",
-    "@Web": "dist/web"
+    "@Domain": "dist/src/domain",
+    "@Infranstructure": "dist/src/infrastructure",
+    "@Application": "dist/src/application",
+    "@Utils": "dist/src/utilities",
+    "@Web": "dist/src/web"
   },
   "keywords": [],
   "author": "",
