@@ -1,0 +1,4 @@
+Todo
+ - [ ] disable auto reload due to logging in dev mode
+ - [ ] add tests
+ - [ ] add swagger docs 
