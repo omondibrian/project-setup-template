@@ -3,7 +3,7 @@ const TYPES = {
     IUserService: Symbol.for('IUserService'),
     IPostService: Symbol.for('IPostService'),
     IUserRepository: Symbol.for('IUserRepository'),
-    DBClient: Symbol.for('DBClient'),
+    PrismaClient: Symbol.for('PrismaClient'),
 };
 
 export default TYPES;

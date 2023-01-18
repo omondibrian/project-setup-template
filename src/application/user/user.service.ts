@@ -1,5 +1,4 @@
 import { DataException } from "@Domain/exceptions/data_exceptions";
-import { IPostRepository } from "@Domain/posts/repository/posts_repository";
 import { IUser } from "@Domain/user/dtos/user_dto";
 import { IUserRepository } from "@Domain/user/repository/user_repository";
 import TYPES from "@Utils/ioc_types";

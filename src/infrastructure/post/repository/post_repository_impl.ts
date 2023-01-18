@@ -1,17 +1,14 @@
 import { DataException } from "@Domain/exceptions/data_exceptions";
 import { IPost } from "@Domain/posts/dtos/post_dto";
 import { IPostRepository } from "@Domain/posts/repository/posts_repository";
-import { Post } from "@prisma/client";
-import TYPES from "@Utils/ioc_types";
+import { Post, PrismaClient } from "@prisma/client";
 import Logger from "@Utils/logger";
-import { DBClient } from "@Utils/prismaClient";
-import { inject, injectable } from "inversify";
+import { injectable } from "inversify";
+import Prisma from "@Utils/prismaClient"
+
 @injectable()
 export class PostRepositoryImpl implements IPostRepository {
-  private readonly dbConn: DBClient;
-  constructor(@inject(TYPES.DBClient) db: DBClient) {
-    this.dbConn = db;
-  }
+  private readonly dbConn: PrismaClient =Prisma ;
   private returnPostPayload(res: Post): IPost {
     return {
       ...res,
@@ -20,7 +17,7 @@ export class PostRepositoryImpl implements IPostRepository {
   }
   insert = async (data: Omit<IPost, "id">): Promise<IPost | DataException> => {
     try {
-      const res = await this.dbConn.prisma.post.create({ data });
+      const res = await this.dbConn.post.create({ data });
       return this.returnPostPayload(res);
     } catch (error: any) {
       Logger.error(error.message)
@@ -33,7 +30,7 @@ export class PostRepositoryImpl implements IPostRepository {
     data: Partial<IPost>
   ): Promise<IPost | DataException> => {
     try {
-      const res = await this.dbConn.prisma.post.update({
+      const res = await this.dbConn.post.update({
         data,
         where: {
           id: +id,
@@ -47,7 +44,7 @@ export class PostRepositoryImpl implements IPostRepository {
   };
   findAll = async (): Promise<IPost[] | DataException> => {
     try {
-      const res = await this.dbConn.prisma.post.findMany();
+      const res = await this.dbConn.post.findMany();
       return res.map((p) => this.returnPostPayload(p));
     } catch (error: any) {
       Logger.error(error.message)
@@ -56,7 +53,7 @@ export class PostRepositoryImpl implements IPostRepository {
   };
   findById = async (id: string): Promise<IPost | DataException> => {
     try {
-      const res = await this.dbConn.prisma.post.findUnique({
+      const res = await this.dbConn.post.findUnique({
         where: {
           id: +id,
         },
@@ -70,7 +67,7 @@ export class PostRepositoryImpl implements IPostRepository {
   };
   delete = async (id: string): Promise<IPost | DataException> => {
     try {
-      const res = await this.dbConn.prisma.post.delete({
+      const res = await this.dbConn.post.delete({
         where: {
           id: +id,
         },
