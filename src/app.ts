@@ -8,11 +8,13 @@ import { InversifyExpressServer } from "inversify-express-utils";
 
 import Logger from "@Utils/logger";
 import { appContainer } from "./inversify.config";
-
+import swaggerDocs from "@Utils/swagger";
 import "@Web/controllers/user/user.controller";
 import "@Web/controllers/posts/posts.controller";
 import morganMiddleware from "@Web/middlewares/morgan_logger";
-
+import "@Utils/registry";
+import { component, swagger } from "@Utils/decorator";
+import { IPost, postSchemaObj } from "@Domain/posts/dtos/post_dto";
 const app: Express = express();
 let server = new InversifyExpressServer(
   appContainer,
@@ -33,10 +35,21 @@ server.setConfig((app) => {
   app.use(cors());
   app.use(helmet());
   app.use(morganMiddleware);
+  component(postSchemaObj)
+  swagger()
+  swaggerDocs(app as Express, +process.env.PORT! || 3000);
+
 });
 
 let serverInstance = server.build();
 serverInstance.listen(process.env.PORT || 3000);
+
 Logger.info(
   `Server listenning on http://localhost:${process.env.PORT || 3000}`
 );
+
+
+interface Test {
+  name: string,
+  email: string
+}

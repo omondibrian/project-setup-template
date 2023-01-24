@@ -10,13 +10,12 @@ import {
   requestParam,
   httpPut,
 } from "inversify-express-utils";
-import {  inject } from "inversify";
+import { inject } from "inversify";
 import TYPES from "@Utils/ioc_types";
 import { IUserService } from "@Application/user/user.service";
 import { IUser } from "@Domain/user/dtos/user_dto";
-
 @controller("/user")
- class UserController implements interfaces.Controller {
+class UserController implements interfaces.Controller {
   constructor(@inject(TYPES.IUserService) private userService: IUserService) {}
 
   @httpPost("/")
@@ -30,6 +29,8 @@ import { IUser } from "@Domain/user/dtos/user_dto";
       message: result!.getResult().message,
     });
   }
+
+
   @httpPut("/profile")
   private async update(
     @request() req: express.Request,
@@ -39,7 +40,6 @@ import { IUser } from "@Domain/user/dtos/user_dto";
       option: req.body.option,
       data: req.body.data,
     };
-    console.log(requestPayload)
     const result = await this.userService.updateUserInfo(
       requestPayload.option,
       requestPayload.data
@@ -49,6 +49,7 @@ import { IUser } from "@Domain/user/dtos/user_dto";
       message: result!.getResult().message,
     });
   }
+
   @httpGet("/:id")
   private async fetchUser(
     @requestParam("id") id: string,
@@ -63,6 +64,7 @@ import { IUser } from "@Domain/user/dtos/user_dto";
       message: result!.getResult().message,
     });
   }
+
   @httpDelete("/:id")
   private async delete(
     @requestParam("id") id: string,
@@ -75,7 +77,6 @@ import { IUser } from "@Domain/user/dtos/user_dto";
     });
   }
 }
-
 
 export default UserController;
 
