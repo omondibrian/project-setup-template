@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest --config ./vite.config.ts",
+    "test": "vitest  run --config ./vite.config.ts",
     "start": "node dist/src/app.js",
     "prepare": "husky install",
     "watch": "tsc -w",
