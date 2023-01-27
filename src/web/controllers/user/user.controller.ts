@@ -9,30 +9,39 @@ import {
   response,
   requestParam,
   httpPut,
+  BaseHttpController,
 } from "inversify-express-utils";
 import { inject } from "inversify";
 import TYPES from "@Utils/ioc_types";
 import { IUserService } from "@Application/user/user.service";
 import { IUser } from "@Domain/user/dtos/user_dto";
 @controller("/user")
-class UserController implements interfaces.Controller {
-  constructor(@inject(TYPES.IUserService) private userService: IUserService) {}
+class UserController
+  extends BaseHttpController
+  implements interfaces.Controller
+{
+  constructor(@inject(TYPES.IUserService) private userService: IUserService) {
+    super();
+  }
 
   @httpPost("/")
-  private async create(
+  public async create(
     @request() req: express.Request,
     @response() res: express.Response
   ) {
     const result = await this.userService.create(req.body);
-    res.status(result!.status).json({
-      user: result!.getResult().payload,
-      message: result!.getResult().message,
-    });
+
+    return this.json(
+      {
+        user: result!.getResult().payload,
+        message: result!.getResult().message,
+      },
+      result!.status
+    );
   }
 
-
   @httpPut("/profile")
-  private async update(
+  public async update(
     @request() req: express.Request,
     @response() res: express.Response
   ) {
@@ -44,14 +53,17 @@ class UserController implements interfaces.Controller {
       requestPayload.option,
       requestPayload.data
     );
-    res.status(result!.status).json({
-      user: result!.getResult().payload,
-      message: result!.getResult().message,
-    });
+    return this.json(
+      {
+        user: result!.getResult().payload,
+        message: result!.getResult().message,
+      },
+      result!.status
+    );
   }
 
   @httpGet("/:id")
-  private async fetchUser(
+  public async fetchUser(
     @requestParam("id") id: string,
     @response() res: express.Response
   ) {
@@ -59,22 +71,28 @@ class UserController implements interfaces.Controller {
       field: "id",
       value: id,
     });
-    res.status(result!.status).json({
-      user: result!.getResult().payload,
-      message: result!.getResult().message,
-    });
+    return this.json(
+      {
+        user: result!.getResult().payload,
+        message: result!.getResult().message,
+      },
+      result!.status
+    );
   }
 
   @httpDelete("/:id")
-  private async delete(
+  public async delete(
     @requestParam("id") id: string,
     @response() res: express.Response
   ) {
     const result = await this.userService.removeSelectedUser(id);
-    res.status(result!.status).json({
-      user: result!.getResult().payload,
-      message: result!.getResult().message,
-    });
+    return this.json(
+      {
+        user: result!.getResult().payload,
+        message: result!.getResult().message,
+      },
+      result!.status
+    );
   }
 }
 

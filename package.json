@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest  run --config ./vite.config.ts",
-    "start": "node dist/src/app.js",
+    "start": "node dist/src/index.js",
     "prepare": "husky install",
     "watch": "tsc -w",
-    "dev": "nodemon ./src/app.ts",
+    "dev": "nodemon ./src/index.ts",
     "build": "npm-run-all clean tsc  ",
     "clean": "rimraf dist/*",
     "tsc": "tsc",
@@ -53,12 +53,14 @@
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
+    "@types/supertest": "^2.0.12",
     "@vitest/coverage-c8": "^0.27.1",
     "@vitest/coverage-istanbul": "^0.27.1",
     "husky": "^8.0.0",
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
     "rimraf": "^4.0.5",
+    "supertest": "^6.3.3",
     "vitest": "^0.27.1",
     "vitest-mock-extended": "^1.0.8"
   }
